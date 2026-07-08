@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Misinformation Detector</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        width: 300px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f8f9fa;
+      }
+
+      .popup-container {
+        padding: 16px;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .header h2 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px;
+        background: white;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        font-size: 13px;
+        color: #666;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #10b981;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-primary {
+        background: #3b82f6;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #2563eb;
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #3b82f6;
+        border: 1px solid #e5e7eb;
+      }
+
+      .btn-secondary:hover {
+        background: #f3f4f6;
+      }
+
+      .settings {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .setting-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 0;
+        font-size: 13px;
+        color: #666;
+      }
+
+      .toggle {
+        width: 32px;
+        height: 18px;
+        background: #e5e7eb;
+        border: none;
+        border-radius: 9px;
+        cursor: pointer;
+        position: relative;
+        transition: background 0.2s;
+      }
+
+      .toggle.active {
+        background: #10b981;
+      }
+
+      .toggle-dot {
+        width: 14px;
+        height: 14px;
+        background: white;
+        border-radius: 6px;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        transition: left 0.2s;
+      }
+
+      .toggle.active .toggle-dot {
+        left: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="popup-container">
+      <div class="header">
+        <h2>Detector</h2>
+      </div>
+
+      <div class="status">
+        <div class="status-dot"></div>
+        <span>Active on this page</span>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" id="open-arena">Play Arena</button>
+        <button class="btn-secondary" id="open-dashboard">Dashboard</button>
+      </div>
+
+      <div class="settings">
+        <div class="setting-item">
+          <span>Overlay enabled</span>
+          <button class="toggle active" id="overlay-toggle">
+            <div class="toggle-dot"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./main.ts"></script>
+  </body>
+</html>
