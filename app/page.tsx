@@ -91,6 +91,7 @@ export default function Page() {
             <div className="text-3xl font-bold text-green-600 mb-2">10K+</div>
             <p className="text-gray-600">Active Players</p>
           </div>
+          {/* div */}
           <div className="bg-white rounded-lg p-6 text-center">
             <div className="text-3xl font-bold text-purple-600 mb-2">95%</div>
             <p className="text-gray-600">Average Accuracy</p>
