@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     if (isCorrect) {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('correct_predictions, total_predictions')
+        .select('correct_predictions, total_predictions, score')
         .eq('id', user.id)
         .single();
 

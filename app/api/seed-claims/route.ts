@@ -96,7 +96,7 @@ const SAMPLE_CLAIMS = [
 
 export async function POST(request: Request) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Check if claims already exist
     const { data: existingClaims } = await supabase

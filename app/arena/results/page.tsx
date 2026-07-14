@@ -1,10 +1,11 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-export default function ResultsPage() {
+function ResultsContent() {
   const searchParams = useSearchParams();
   const score = parseInt(searchParams.get('score') || '0');
   const total = parseInt(searchParams.get('total') || '0');
@@ -35,7 +36,6 @@ export default function ResultsPage() {
           <p className="text-lg text-gray-600">{message}</p>
         </div>
 
-        {/* Feedback */}
         <div className="bg-gray-50 rounded-lg p-4 mb-8">
           <p className="text-sm text-gray-600">
             {percentage >= 80
@@ -46,7 +46,6 @@ export default function ResultsPage() {
           </p>
         </div>
 
-        {/* Actions */}
         <div className="space-y-3">
           <Link href="/arena" className="block">
             <Button className="w-full bg-blue-600 hover:bg-blue-700">Play Again</Button>
@@ -64,5 +63,19 @@ export default function ResultsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ResultsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+          <p className="text-gray-600">Loading results...</p>
+        </div>
+      }
+    >
+      <ResultsContent />
+    </Suspense>
   );
 }

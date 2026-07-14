@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     const analysis = await analyzeClaimWithGemini(claim);
 
     // Get current user from Supabase
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();

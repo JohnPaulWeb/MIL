@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { isSupabaseConfigured } from '@/lib/supabase/env';
 import { useAuthStore } from '@/lib/store';
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -10,6 +11,11 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const setIsLoading = useAuthStore((state) => state.setIsLoading);
 
   useEffect(() => {
+    if (!isSupabaseConfigured()) {
+      setIsLoading(false);
+      return;
+    }
+
     const supabase = createClient();
 
     // Get current session
