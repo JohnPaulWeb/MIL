@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { isDevAuthEnabled } from '@/lib/auth/dev-auth';
+import { MOCK_CLAIMS } from '@/lib/mock/data';
 import { useAuthStore, useArenaStore } from '@/lib/store';
 import { createClient } from '@/lib/supabase/client';
 import { Claim } from '@/lib/types';
@@ -23,7 +25,12 @@ export default function ArenaPage() {
       return;
     }
 
-    // Fetch training claims
+    if (isDevAuthEnabled()) {
+      setClaims(MOCK_CLAIMS);
+      setLoading(false);
+      return;
+    }
+
     const supabase = createClient();
     supabase
       .from('claims')
@@ -69,9 +76,8 @@ export default function ArenaPage() {
       incrementScore();
     }
 
-    // Save prediction
-    const supabase = createClient();
-    if (user) {
+    if (!isDevAuthEnabled() && user) {
+      const supabase = createClient();
       supabase.from('user_predictions').insert({
         user_id: user.id,
         claim_id: currentClaim.id,

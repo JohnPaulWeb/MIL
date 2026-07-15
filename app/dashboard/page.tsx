@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { isDevAuthEnabled, signOutDevAuth } from '@/lib/auth/dev-auth';
+import { MOCK_LEADERBOARD } from '@/lib/mock/data';
 import { useAuthStore } from '@/lib/store';
 import { createClient } from '@/lib/supabase/client';
-import { Profile, LeaderboardEntry } from '@/lib/types';
+import { LeaderboardEntry } from '@/lib/types';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -21,7 +23,12 @@ export default function DashboardPage() {
       return;
     }
 
-    // Fetch leaderboard
+    if (isDevAuthEnabled()) {
+      setLeaderboard(MOCK_LEADERBOARD);
+      setLoading(false);
+      return;
+    }
+
     const supabase = createClient();
     supabase
       .from('profiles')
@@ -123,8 +130,14 @@ export default function DashboardPage() {
                 variant="outline"
                 className="w-full"
                 onClick={() => {
-                  const supabase = createClient();
-                  supabase.auth.signOut();
+                  if (isDevAuthEnabled()) {
+                    signOutDevAuth();
+                    useAuthStore.getState().setUser(null);
+                    useAuthStore.getState().setProfile(null);
+                  } else {
+                    const supabase = createClient();
+                    supabase.auth.signOut();
+                  }
                   router.push('/auth/login');
                 }}
               >

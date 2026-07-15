@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { getDevSession, isDevAuthEnabled } from '@/lib/auth/dev-auth';
 import { createClient } from '@/lib/supabase/client';
 import { isSupabaseConfigured } from '@/lib/supabase/env';
 import { useAuthStore } from '@/lib/store';
@@ -11,6 +12,16 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const setIsLoading = useAuthStore((state) => state.setIsLoading);
 
   useEffect(() => {
+    if (isDevAuthEnabled()) {
+      const session = getDevSession();
+      if (session) {
+        setUser(session.user);
+        setProfile(session.profile);
+      }
+      setIsLoading(false);
+      return;
+    }
+
     if (!isSupabaseConfigured()) {
       setIsLoading(false);
       return;
